@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sweet Smart AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+body{
+background:#0f172a;
+color:white;
+font-family:Arial;
+text-align:center;
+}
+
+#chat{
+height:70vh;
+overflow:auto;
+border:1px solid #333;
+margin:10px;
+padding:10px;
+}
+
+input{
+width:70%;
+padding:10px;
+}
+
+button{
+padding:10px;
+background:#2563eb;
+color:white;
+border:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Sweet Smart AI 🤖</h2>
+
+<div id="chat"></div>
+
+<input id="msg" placeholder="Ask something...">
+<button onclick="send()">Send</button>
+
+<script>
+
+async function send(){
+
+let text=document.getElementById("msg").value
+
+let chat=document.getElementById("chat")
+
+chat.innerHTML+="<p><b>You:</b> "+text+"</p>"
+
+let reply="AI reply will come here"
+
+chat.innerHTML+="<p><b>AI:</b> "+reply+"</p>"
+
+}
+
+</script>
+
+</body>
+</html>
