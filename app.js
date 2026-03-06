@@ -77,4 +77,4 @@ userInput.addEventListener('keypress', (e) => {
 });
 
 // Initialize Icons
-if (window.lucide) { lucide.createIcons(); }
+if (window.lucide) { lucide.createIcons(); } 
