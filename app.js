@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai";
 
 // 🛑 APNI API KEY YAHAN PASTE KREIN
-export const API_KEY = "AIzaSyAJ_WD0XV5kdkTJ0vpF6CMXTFXVAQ1agqA";
+export const API_KEY = AIzaSyBbwQyzp9pLEkCHO_8ODehSD3aXhZoMlMk
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 const messagesDiv = document.getElementById('messages');
