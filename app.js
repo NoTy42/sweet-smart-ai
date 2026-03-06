@@ -28,7 +28,7 @@ async function handleChat() {
     } else {
         // 4. Gemini AI Text Response
         try {
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
             const chat = model.startChat({ history: chatHistory });
             
             // Fixed: "text" variable use kiya hai (no prompt error)
