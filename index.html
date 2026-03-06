@@ -1,66 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Sweet Smart AI</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-
-body{
-background:#0f172a;
-color:white;
-font-family:Arial;
-text-align:center;
-}
-
-#chat{
-height:70vh;
-overflow:auto;
-border:1px solid #333;
-margin:10px;
-padding:10px;
-}
-
-input{
-width:70%;
-padding:10px;
-}
-
-button{
-padding:10px;
-background:#2563eb;
-color:white;
-border:none;
-}
-
-</style>
+<title>🐱 Sweet Smart AI</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<h2>Sweet Smart AI 🤖</h2>
+<div class="topbar">
+    <h2>🐱 Sweet Smart AI</h2>
+    <button id="themeBtn">🌙 Theme</button>
+</div>
 
-<div id="chat"></div>
+<div id="messages">
+    <!-- Chat messages appear here -->
+</div>
 
-<input id="msg" placeholder="Ask something...">
-<button onclick="send()">Send</button>
+<div class="inputArea">
+    <textarea id="userInput" placeholder="Ask anything..." rows="1"></textarea>
+    <input type="file" id="fileInput">
+    <button id="voiceBtn">🎤</button>
+    <button id="imgBtn">🖼</button>
+    <button id="sendBtn">Send</button>
+    <button id="clearBtn">Clear</button>
+</div>
 
-<script>
-
-async function send(){
-
-let text=document.getElementById("msg").value
-
-let chat=document.getElementById("chat")
-
-chat.innerHTML+="<p><b>You:</b> "+text+"</p>"
-
-let reply="AI reply will come here"
-
-chat.innerHTML+="<p><b>AI:</b> "+reply+"</p>"
-
-}
-
-</script>
-
+<script type="module" src="app.js"></script>
 </body>
 </html>
