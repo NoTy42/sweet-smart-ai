@@ -1,91 +1,81 @@
-/* Sweet Smart AI V5 - style.css */
-
-body {
-    margin: 0;
-    font-family: sans-serif;
-    background: #0f172a;
-    color: white;
+vv
+:root {
+    --bg-dark: #0b1120;
+    --card-bg: #1e293b;
+    --text-white: #f8fafc;
+    --accent-blue: #38bdf8;
 }
 
-.light {
-    background: white;
-    color: black;
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Ye zaroori hai */
+    font-family: sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+}
+
+/* Page Layout: Header, Chat, and Input */
+body {
+    display: flex;
+    flex-direction: column; /* Items ko upar se niche arrange karega */
 }
 
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background: #020617;
+    padding: 15px 20px;
+    background: #0f172a;
+    border-bottom: 1px solid #334155;
 }
 
 #messages {
-    height: 70vh;
-    overflow-y: auto;
+    flex: 1; /* Ye chat area ko saari bachi hui jagah de dega */
+    overflow-y: auto; /* Scroll bar tabhi aayegi jab messages zyada honge */
     padding: 20px;
-    background: #0f172a;
-}
-
-.user {
-    background: #2563eb;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-    color: white;
-}
-
-.ai {
-    background: #1e293b;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-    color: white;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.ai button {
-    margin-left: 10px;
-    background: #10b981;
-    border: none;
-    padding: 5px 8px;
-    border-radius: 4px;
-    cursor: pointer;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .inputArea {
+    background: #0f172a;
+    padding: 20px;
     display: flex;
+    flex-wrap: wrap; /* Mobile par buttons niche aa jayenge */
     gap: 10px;
-    padding: 10px;
-    background: #020617;
     align-items: center;
+    border-top: 1px solid #334155;
 }
 
-textarea {
+#userInput {
     flex: 1;
-    padding: 10px;
-    background: #111827;
-    border: none;
+    min-width: 200px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background: var(--card-bg);
     color: white;
-    border-radius: 5px;
     resize: none;
 }
 
 button {
-    background: #2563eb;
+    padding: 10px 15px;
+    border-radius: 8px;
     border: none;
-    color: white;
-    padding: 10px;
+    background: var(--accent-blue);
+    color: #0b1120;
+    font-weight: bold;
     cursor: pointer;
-    border-radius: 5px;
+    transition: 0.2s;
 }
 
-input[type="file"] {
-    background: #2563eb;
+button:hover {
+    opacity: 0.8;
+}
+
+#themeBtn {
+    background: #334155;
     color: white;
-    border-radius: 5px;
-    padding: 5px;
-    cursor: pointer;
-  }
+    }
