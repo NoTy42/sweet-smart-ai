@@ -1,108 +1,49 @@
-import { API_KEY } from "./config.js";
+import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai";
 
-const messages = document.getElementById("messages");
-const input = document.getElementById("userInput");
+// 🛑 APNI API KEY YAHAN PASTE KREIN
+const API_KEY = "AIzaSyCP5oXwWme_kDaQpBDEOXnyQaiB7Y-JrYM";
+const genAI = new GoogleGenerativeAI(API_KEY);
 
-const sendBtn = document.getElementById("sendBtn");
-const voiceBtn = document.getElementById("voiceBtn");
-const imgBtn = document.getElementById("imgBtn");
-const clearBtn = document.getElementById("clearBtn");
-const themeBtn = document.getElementById("themeBtn");
-const fileInput = document.getElementById("fileInput");
+const messagesDiv = document.getElementById('messages');
+const userInput = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
 
-// Welcome voice
-window.onload = () => {
-    speechSynthesis.speak(new SpeechSynthesisUtterance("Welcome to Sweet Smart AI"));
-};
-
-// Send user message
-sendBtn.onclick = sendMessage;
-
-async function sendMessage() {
-    const text = input.value.trim();
+async function handleChat() {
+    const text = userInput.value.trim();
     if (!text) return;
 
-    addMessage("user", text);
-    input.value = "";
+    appendMsg('user', text);
+    userInput.value = '';
 
-    const reply = await askAI(text);
-    addMessage("ai", reply, true);
-}
+    const aiBubble = appendMsg('ai', 'Thinking...');
 
-// Add message to chat window
-function addMessage(role, text, voice = false) {
-    const div = document.createElement("div");
-    div.className = role === "user" ? "user" : "ai";
-
-    const span = document.createElement("span");
-    span.innerText = text;
-    div.appendChild(span);
-
-    if (role === "ai") {
-        const copyBtn = document.createElement("button");
-        copyBtn.innerText = "Copy";
-        copyBtn.onclick = () => {
-            navigator.clipboard.writeText(text);
-            copyBtn.innerText = "Copied";
-        };
-        div.appendChild(copyBtn);
-    }
-
-    messages.appendChild(div);
-    messages.scrollTop = messages.scrollHeight;
-
-    if (voice) speechSynthesis.speak(new SpeechSynthesisUtterance(text));
-}
-
-// Gemini API call
-async function askAI(prompt) {
-    const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
-        {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }]
-            })
+    // Image logic: "banao", "image", "photo" keywords par trigger hoga
+    if (text.toLowerCase().includes("image") || text.toLowerCase().includes("banao")) {
+        const imgUrl = `https://pollinations.ai/p/${encodeURIComponent(text)}?width=1024&height=1024&nologo=true`;
+        aiBubble.innerHTML = `Creating image for: "${text}"...<br><img src="${imgUrl}" class="generated-image">`;
+    } else {
+        try {
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const result = await model.generateContent(text);
+            const response = await result.response;
+            aiBubble.innerText = response.text();
+        } catch (e) {
+            aiBubble.innerText = "Error: Check your API Key or Internet.";
         }
-    );
-    const data = await res.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+    }
 }
 
-// Voice input
-voiceBtn.onclick = () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const rec = new SpeechRecognition();
-    rec.start();
-    rec.onresult = e => {
-        input.value = e.results[0][0].transcript;
-    };
-};
+function appendMsg(role, text) {
+    const div = document.createElement('div');
+    div.className = `message-box ${role}`;
+    div.innerText = text;
+    messagesDiv.appendChild(div);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    return div;
+}
 
-// Image generation
-imgBtn.onclick = () => {
-    const prompt = input.value;
-    if (!prompt) return;
-    addMessage("ai", "🖼 Image:\nhttps://image.pollinations.ai/prompt/" + encodeURIComponent(prompt));
-};
-
-// File reader
-fileInput.onchange = e => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-        input.value = reader.result;
-    };
-    reader.readAsText(file);
-};
-
-// Clear chat
-clearBtn.onclick = () => {
-    messages.innerHTML = "";
-};
-
-// Toggle theme
-themeBtn.onclick = () => {
-    document.body.classList.toggle("light");
-};
+sendBtn.addEventListener('click', handleChat);
+// Enter key se send karne ke liye
+userInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleChat(); });
+// Icons load karne ke liye
+lucide.createIcons();
