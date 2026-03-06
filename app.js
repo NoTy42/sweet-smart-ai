@@ -1,7 +1,8 @@
 import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai";
 
-// ✅ Aapki API Key yahan Quotes ke andar set kar di gayi hai
-const API_KEY = "AIzaSyBbwQyzp9pLEkCHO_8ODehSD3aXhZoMlMkaXhZoMlMk";
+// 🛑 APNI NAYI KEY YAHAN QUOTES KE ANDAR DALEIN
+const API_KEY = "AIzaSyDIvNlv87043vmUL4JtuIrOYlKoWGZgUNo "; 
+
 const genAI = new GoogleGenerativeAI(API_KEY);
 let chatHistory = [];
 
@@ -16,32 +17,34 @@ async function handleChat() {
     // 1. User Message Display
     appendMsg('user', text);
     userInput.value = '';
-    userInput.style.height = 'auto';
 
     // 2. AI Placeholder
     const aiBubble = appendMsg('ai', 'Thinking...');
 
-    // 3. Image Generation Logic
-    if (text.toLowerCase().includes("image") || text.toLowerCase().includes("photo") || text.toLowerCase().includes("banao")) {
+    // 3. Image Generation Logic (banao/image keywords)
+    if (text.toLowerCase().includes("image") || text.toLowerCase().includes("banao")) {
         const imgUrl = `https://pollinations.ai/p/${encodeURIComponent(text)}?width=1024&height=1024&nologo=true`;
-        aiBubble.innerHTML = `Generating image for you...<br><img src="${imgUrl}" class="generated-image" style="width:100%; border-radius:12px; margin-top:10px;" onload="messagesDiv.scrollTop = messagesDiv.scrollHeight">`;
+        aiBubble.innerHTML = `Generating image...<br><img src="${imgUrl}" class="generated-image" style="width:100%; border-radius:12px; margin-top:10px;" onload="messagesDiv.scrollTop = messagesDiv.scrollHeight">`;
     } else {
-        // 4. Gemini AI Text/Code Response
+        // 4. Gemini AI Text Response
         try {
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
             const chat = model.startChat({ history: chatHistory });
-            const result = await chat.sendMessage(prompt);
+            
+            // Fixed: "text" variable use kiya hai (no prompt error)
+            const result = await chat.sendMessage(text); 
             const responseText = result.response.text();
             
-            // Save to memory
+            // Memory update
             chatHistory.push({ role: "user", parts: [{ text: text }] });
             chatHistory.push({ role: "model", parts: [{ text: responseText }] });
 
-            // Stream text like ChatGPT
+            // Typewriter effect
             streamText(aiBubble, responseText);
         } catch (e) {
-            aiBubble.innerText = "System Error: Please check if the API key is active or try again later.";
-            console.error(e);
+            // Detailed error display
+            aiBubble.innerText = "System Error: " + e.message;
+            console.error("Gemini Error:", e);
         }
     }
 }
@@ -67,14 +70,14 @@ function streamText(element, text) {
     }, 15);
 }
 
-// Click and Enter key support
+// Listeners
 sendBtn.addEventListener('click', handleChat);
-userInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+userInput.addEventListener('keypress', (e) => { 
+    if(e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         handleChat();
     }
 });
 
-// Initialize Icons
-if (window.lucide) { lucide.createIcons(); } 
+// Icons load
+if (window.lucide) { lucide.createIcons(); }
