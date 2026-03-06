@@ -1,8 +1,7 @@
 import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai";
 
-// 🛑 APNI NAYI KEY YAHAN QUOTES KE ANDAR DALEIN
-const API_KEY = "AIzaSyDIvNlv87043vmUL4JtuIrOYlKoWGZgUNo "; 
-
+// 🛑 APNI NAYI KEY YAHAN DALEIN
+const API_KEY = "AIzaSyBbwQyzp9pLEkCHO_8ODehSD3aXhZoMlMkaXhZoMlMk"; 
 const genAI = new GoogleGenerativeAI(API_KEY);
 let chatHistory = [];
 
@@ -14,37 +13,30 @@ async function handleChat() {
     const text = userInput.value.trim();
     if (!text) return;
 
-    // 1. User Message Display
     appendMsg('user', text);
     userInput.value = '';
 
-    // 2. AI Placeholder
     const aiBubble = appendMsg('ai', 'Thinking...');
 
-    // 3. Image Generation Logic (banao/image keywords)
     if (text.toLowerCase().includes("image") || text.toLowerCase().includes("banao")) {
         const imgUrl = `https://pollinations.ai/p/${encodeURIComponent(text)}?width=1024&height=1024&nologo=true`;
         aiBubble.innerHTML = `Generating image...<br><img src="${imgUrl}" class="generated-image" style="width:100%; border-radius:12px; margin-top:10px;" onload="messagesDiv.scrollTop = messagesDiv.scrollHeight">`;
     } else {
-        // 4. Gemini AI Text Response
         try {
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
-            const chat = model.startChat({ history: chatHistory });
+            // ✅ Version 1 Stable Model Use Kar Rahay Hain
+            const model = genAI.getGenerativeModel({ 
+                model: "gemini-1.5-flash",
+                apiVersion: "v1" 
+            }); 
             
-            // Fixed: "text" variable use kiya hai (no prompt error)
-            const result = await chat.sendMessage(text); 
+            const result = await model.generateContent(text);
             const responseText = result.response.text();
-            
-            // Memory update
-            chatHistory.push({ role: "user", parts: [{ text: text }] });
-            chatHistory.push({ role: "model", parts: [{ text: responseText }] });
 
-            // Typewriter effect
             streamText(aiBubble, responseText);
         } catch (e) {
-            // Detailed error display
-            aiBubble.innerText = "System Error: " + e.message;
-            console.error("Gemini Error:", e);
+            // Detailed Error for debugging
+            aiBubble.innerText = "Connection Error: " + e.message;
+            console.error(e);
         }
     }
 }
@@ -70,14 +62,6 @@ function streamText(element, text) {
     }, 15);
 }
 
-// Listeners
 sendBtn.addEventListener('click', handleChat);
-userInput.addEventListener('keypress', (e) => { 
-    if(e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        handleChat();
-    }
-});
-
-// Icons load
+userInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleChat(); });
 if (window.lucide) { lucide.createIcons(); }
