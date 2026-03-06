@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🐱 Sweet Smart AI</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🐱 Sweet Smart AI - V7 PRO</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+    <div class="app-container">
+        <header class="v7-header">
+            <div class="header-content">
+                <span class="logo">🐱 Sweet Smart AI</span>
+                <span class="v7-badge">V7 PRO</span>
+            </div>
+            <button id="clearBtn" class="utility-btn">New Chat</button>
+        </header>
 
-<div class="topbar">
-    <h2>🐱 Sweet Smart AI</h2>
-    <button id="themeBtn">🌙 Theme</button>
-</div>
+        <main id="messages" class="chat-flow">
+            </main>
 
-<div id="messages">
-    <!-- Chat messages appear here -->
-</div>
-
-<div class="inputArea">
-    <textarea id="userInput" placeholder="Ask anything..." rows="1"></textarea>
-    <input type="file" id="fileInput">
-    <button id="voiceBtn">🎤</button>
-    <button id="imgBtn">🖼</button>
-    <button id="sendBtn">Send</button>
-    <button id="clearBtn">Clear</button>
-</div>
-
-<script type="module" src="app.js"></script>
+        <footer class="v7-input-section">
+            <div class="input-wrapper">
+                <textarea id="userInput" placeholder="Ask anything or generate images..." rows="1"></textarea>
+                <button id="sendBtn" class="pro-send-btn">
+                    <i data-lucide="arrow-up"></i>
+                </button>
+            </div>
+            <p class="disclaimer">V7 Edition • Gemini 1.5 Flash</p>
+        </footer>
+    </div>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
