@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sweet Smart AI PRO V7</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Sweet Smart AI</h2>
+    <button onclick="newChat()">+ New Chat</button>
+    <div id="history"></div>
+</div>
+
+<div class="chat-container">
+    <div id="messages"></div>
+    <div class="inputBox">
+        <textarea id="userInput" placeholder="Type your message"></textarea>
+        <input type="file" id="fileInput">
+        <button onclick="send()">Send</button>
+        <button onclick="generateImage()">Image</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+    // Voice welcome
+    window.onload = () => {
+        const msg = new SpeechSynthesisUtterance("Welcome to Sweet Smart AI");
+        window.speechSynthesis.speak(msg);
+    };
+</script>
+
+</body>
+</html>
